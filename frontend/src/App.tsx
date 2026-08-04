@@ -1,4 +1,3 @@
-import React from 'react';
 import OrderEntry from './components/OrderEntry';
 import OrderBook from './components/OrderBook';
 import TradeHistory from './components/TradeHistory';

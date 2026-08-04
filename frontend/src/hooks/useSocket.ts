@@ -50,7 +50,8 @@ export function useSocket() {
   });
 
   useEffect(() => {
-    const newSocket = io('http://localhost:3001');
+    const backendUrl = import.meta.env.PROD ? '' : 'http://localhost:3001';
+    const newSocket = io(backendUrl);
     setSocket(newSocket);
 
     newSocket.on('orderBook', (ob: OrderBook) => {
@@ -76,7 +77,8 @@ export function useSocket() {
 
   const placeOrder = useCallback(async (side: 'BUY' | 'SELL', type: 'LIMIT' | 'MARKET', price: number, quantity: number) => {
     try {
-      const res = await fetch('http://localhost:3001/orders', {
+      const backendUrl = import.meta.env.PROD ? '' : 'http://localhost:3001';
+      const res = await fetch(`${backendUrl}/orders`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ side, type, price, quantity })
@@ -92,5 +94,18 @@ export function useSocket() {
     }
   }, []);
 
-  return { socket, orderBook, trades, stats, placeOrder };
+  const cancelOrder = useCallback(async (id: string) => {
+    try {
+      const backendUrl = import.meta.env.PROD ? '' : 'http://localhost:3001';
+      const res = await fetch(`${backendUrl}/orders/${id}`, {
+        method: 'DELETE'
+      });
+      return res.ok;
+    } catch (e) {
+      console.error('Cancel error:', e);
+      return false;
+    }
+  }, []);
+
+  return { socket, orderBook, trades, stats, placeOrder, cancelOrder };
 }

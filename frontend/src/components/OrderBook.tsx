@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import type { OrderBook as OrderBookType, OrderBookLevel } from '../hooks/useSocket';
+import type { OrderBook as OrderBookType } from '../hooks/useSocket';
 
 interface OrderBookProps {
   orderBook: OrderBookType;
