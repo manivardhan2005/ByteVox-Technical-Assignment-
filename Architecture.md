@@ -4,14 +4,14 @@ This document outlines the architecture for the ByteVox Simplified Exchange simu
 
 ```mermaid
 graph TD
-    Client[Browser Client (React)] -->|REST API - POST /orders| API[Express API]
-    API -->|Validates & Submits| ME[Matching Engine]
+    Client["Browser Client (React)"] -->|REST API - POST /orders| API["Express API"]
+    API -->|Validates & Submits| ME["Matching Engine"]
     
-    ME -->|Trade Executed| DB[(In-Memory Storage)]
+    ME -->|Trade Executed| DB[("In-Memory Storage")]
     ME -->|Order Added/Matched| DB
     
     DB -->|Emits State Changes| ME
-    ME -->|Socket.IO Events| WS[WebSocket Server]
+    ME -->|Socket.IO Events| WS["WebSocket Server"]
     
     WS -->|orderBook| Client
     WS -->|trades| Client
